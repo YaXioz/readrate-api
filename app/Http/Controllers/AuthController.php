@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
@@ -23,18 +26,22 @@ class AuthController extends Controller
         return response()->json(['message' => 'Register berhasil!']);
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Email atau password salah.'],
-            ]);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('token-name')->plainTextToken;
 
-        return response()->json(['token' => $token]);
+        return response()->json(['token' => $token], 200);
     }
 
     public function logout(Request $request) {

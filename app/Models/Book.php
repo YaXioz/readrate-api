@@ -11,6 +11,8 @@ class Book extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+        $book = Book::with('ratings')->find($id);
+        $average = $book->ratings->avg('stars');
     }
 }
 
