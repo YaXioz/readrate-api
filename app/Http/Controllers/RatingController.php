@@ -9,21 +9,18 @@ class RatingController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
             'book_id' => 'required|exists:books,id',
-            'rating' => 'required|integer|min:1|max:5',
+            'rating'  => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string'
         ]);
 
-        $rating = Rating::create([
-            'user_id' => auth()->id(),
-            'book_id' => $request->book_id,
-            'rating' => $request->rating,
-        ]);
+        $rating = Rating::create($validated);
 
         return response()->json([
-            'message' => 'Rating berhasil ditambahkan',
+            'message' => 'Rating berhasil disimpan',
             'data' => $rating
         ], 201);
     }
 }
-
