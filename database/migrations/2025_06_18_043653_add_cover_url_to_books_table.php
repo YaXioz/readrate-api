@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('books', function (Blueprint $table) {
-            //
+       Schema::table('books', function (Blueprint $table) {
+            $table->string('cover_url')->nullable();
         });
     }
 

@@ -24,5 +24,27 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         return response()->json($book);
     }
+    public function uploadCover(Request $request, $id)
+    {
+        $request->validate([
+            'cover' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $book = Book::findOrFail($id);
+
+        if ($request->hasFile('cover')) {
+            $path = $request->file('cover')->store('covers', 'public');
+            $book->cover_url = '/storage/' . $path;
+            $book->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cover uploaded successfully',
+            'path' => $path,
+            'url' => asset('storage/' . $path) // ini akan hasilkan http://localhost:8000/storage/...
+        ]);
+
+    }
 }
 

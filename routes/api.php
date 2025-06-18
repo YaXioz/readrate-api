@@ -17,5 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/ratings', [RatingController::class, 'index']);
     Route::put('/ratings/{id}', [RatingController::class, 'update']);
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);
+    Route::post('/books/{id}/upload-cover', [BookController::class, 'uploadCover']);
 });
 
