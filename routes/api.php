@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\AnalyticsController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -17,6 +18,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/ratings', [RatingController::class, 'index']);
     Route::put('/ratings/{id}', [RatingController::class, 'update']);
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);
+
     Route::post('/books/{id}/upload-cover', [BookController::class, 'uploadCover']);
+
+    Route::get('/books/{id}/average-rating', [BookController::class, 'averageRating']);
+    Route::get('/books/{id}/rating-distribution', [BookController::class, 'ratingDistribution']);
+
+    Route::get('/analytics/top-rated-books', [AnalyticsController::class, 'topRatedBooks']);
+    Route::get('/analytics/user-rating-count', [AnalyticsController::class, 'userRatingCount']);
 });
 
