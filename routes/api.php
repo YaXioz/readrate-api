@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -26,5 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/analytics/top-rated-books', [AnalyticsController::class, 'topRatedBooks']);
     Route::get('/analytics/user-rating-count', [AnalyticsController::class, 'userRatingCount']);
+
+    Route::get('/bookmarks', [BookmarkController::class, 'index']);
+    Route::post('/books/{bookId}/bookmark', [BookmarkController::class, 'store']);
+    Route::delete('/books/{bookId}/bookmark', [BookmarkController::class, 'destroy']);
 });
 
