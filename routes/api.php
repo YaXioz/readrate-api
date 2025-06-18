@@ -5,6 +5,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ReadBookController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -31,5 +32,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index']);
     Route::post('/books/{bookId}/bookmark', [BookmarkController::class, 'store']);
     Route::delete('/books/{bookId}/bookmark', [BookmarkController::class, 'destroy']);
+
+    Route::get('/read-books', [ReadBookController::class, 'index']);
+    Route::post('/books/{bookId}/mark-as-read', [ReadBookController::class, 'markAsRead']);
+    Route::delete('/books/{bookId}/unmark-as-read', [ReadBookController::class, 'unmarkAsRead']);
 });
 

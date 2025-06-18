@@ -12,7 +12,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
     public function ratings()
     {
         return $this->hasMany(Rating::class);
@@ -22,6 +21,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bookmark::class);
     }
+
+    public function readBooks()
+    {
+        return $this->hasMany(ReadBook::class);
+    }
+
 
 
     /**
