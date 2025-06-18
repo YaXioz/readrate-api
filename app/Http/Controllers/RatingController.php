@@ -40,17 +40,15 @@ class RatingController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+   public function update(Request $request, $id)
     {
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
-        $rating = Rating::where('id', $id)->where('user_id', Auth::id())->first();
-
-        if (!$rating) {
-            return response()->json(['message' => 'Rating not found or unauthorized'], 404);
-        }
+        $rating = Rating::findOrFail($id);
+        
+        $this->authorize('modify', $rating);
 
         $rating->rating = $request->rating;
         $rating->save();
@@ -64,11 +62,9 @@ class RatingController extends Controller
 
     public function destroy($id)
     {
-        $rating = Rating::where('id', $id)->where('user_id', Auth::id())->first();
+        $rating = Rating::findOrFail($id);
 
-        if (!$rating) {
-            return response()->json(['message' => 'Rating not found or unauthorized'], 404);
-        }
+        $this->authorize('modify', $rating);
 
         $rating->delete();
 
