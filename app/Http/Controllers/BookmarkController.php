@@ -54,4 +54,19 @@ class BookmarkController extends Controller
             'message' => $deleted ? 'Bookmark removed' : 'Bookmark not found'
         ]);
     }
+
+    public function search(Request $request)
+    {
+        $q = $request->query('q');
+
+        $books = Book::query()
+            ->where('title', 'LIKE', "%$q%")
+            ->orWhere('author', 'LIKE', "%$q%")
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $books
+        ]);
+    }
 }

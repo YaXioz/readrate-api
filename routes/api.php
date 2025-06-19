@@ -6,6 +6,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReadBookController;
+use App\Http\Controllers\GoogleBooksController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -37,4 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/books/{bookId}/mark-as-read', [ReadBookController::class, 'markAsRead']);
     Route::delete('/books/{bookId}/unmark-as-read', [ReadBookController::class, 'unmarkAsRead']);
 });
+
+Route::get('/import-books', [GoogleBooksController::class, 'searchAndImport']);
+
+Route::get('/search-books', [BookController::class, 'search']);
+
+
 

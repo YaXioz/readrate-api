@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+    protected $fillable = [
+        'title',
+        'author',
+        'cover_url',
+    ];
+    
     use HasFactory;
     public function ratings()
     {
